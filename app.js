@@ -1,3 +1,10 @@
+// La URL raíz pública debe comenzar en el portal. El centro operativo se conserva
+// para las vistas integradas del administrador mediante ?embedded=1.
+const dashboardParams = new URLSearchParams(window.location.search);
+if (window.self === window.top && dashboardParams.get("embedded") !== "1") {
+  window.location.replace("portal.html");
+}
+
 // Cliente de Supabase y datos que se mantienen en memoria mientras la página está abierta.
 const url = window.SUPABASE_URL,
   key = window.SUPABASE_ANON_KEY,
@@ -5,7 +12,6 @@ const url = window.SUPABASE_URL,
     url && key && !url.includes("TU-PROYECTO")
       ? window.supabase.createClient(url, key)
       : null;
-const dashboardParams = new URLSearchParams(window.location.search);
 if (dashboardParams.get("embedded") === "1")
   document.body.classList.add("embedded-dashboard");
 let items = [],

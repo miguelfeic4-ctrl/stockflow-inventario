@@ -164,7 +164,7 @@ El administrador usa un solo menú lateral dentro de `portal.html`:
 
 ```text
 inventario-supabase/
-├── index.html                  # Centro operativo de inventario
+├── index.html                  # Entrada pública: redirige al portal de acceso
 ├── portal.html                 # Login y portal por rol
 ├── catalog.html                # Tienda exclusiva para clientes
 ├── register.html               # Registro de nuevos clientes
@@ -187,12 +187,23 @@ inventario-supabase/
 1. Clonar o descargar el código fuente.
 2. Crear un proyecto en Supabase.
 3. En Supabase SQL Editor, ejecutar las migraciones necesarias del directorio `supabase/`.
-4. Copiar `config.example.js` como `config.js`.
-5. Completar `window.SUPABASE_URL` y `window.SUPABASE_ANON_KEY` con los datos del proyecto.
-6. Abrir el proyecto con Live Server, VS Code Live Preview o cualquier servidor estático.
-7. Abrir `portal.html` para iniciar sesión.
+4. Verificar `config.js` y completar `window.SUPABASE_URL` y `window.SUPABASE_ANON_KEY` con los datos del proyecto.
+5. Abrir el proyecto con Live Server, VS Code Live Preview o cualquier servidor estático.
+6. Abrir `index.html` o `portal.html` para iniciar sesión.
 
 > Nunca coloques la clave `service_role` en `config.js` ni en el navegador.
+
+## Despliegue gratuito en Render
+
+El frontend es estático, por lo que puede desplegarse como un **Static Site** en Render y mantener Supabase como backend.
+
+1. En Render, seleccionar **New +** → **Static Site** y conectar el repositorio de GitHub.
+2. Elegir la rama `main`.
+3. Dejar **Build Command** vacío y configurar **Publish Directory** como `.`.
+4. Desplegar. Render asignará una URL HTTPS pública; cada `git push` a `main` publicará una nueva versión.
+5. En Supabase ir a **Authentication** → **URL Configuration** y registrar la URL de Render tanto en **Site URL** como en **Redirect URLs**.
+
+La raíz pública abre el portal de inicio de sesión. El archivo `config.js` solo usa la URL del proyecto y una clave publishable; nunca se debe incluir una clave `service_role` o `sb_secret`.
 
 ## Proyecto Supabase
 
