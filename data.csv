@@ -1,0 +1,21 @@
+producto,stock,proveedor,sku,tipo_movimiento,rack,talla,fecha_movimiento,categoria,cantidad_movimiento,ubicacion,estado,marca,posicion,stock_minimo
+Nike Air Max 90,120,Proveedor Andino,ZAP-001,INBOUND,Rack-03,42,2026-09-08,Running,30,Almacen A,Pendiente,NIKE,A-03-02,15
+Adidas Runfalcon 3,85,Importadora Lima,ZAP-002,Inbound,RACK 01,40,08/09/2026,running,50,Almacen A,Aprobado,adidas,A01-03,10
+Puma Smash v2,60,Sport House,ZAP-003,OUTBOUND,Rack-02,41,2026/09/07,Casual,12,Bodega B,Aprobado,PUMA,B-02-01,8
+Converse Chuck Taylor,45,Proveedor Andino,ZAP-004,Outbound,rack 04,39,07-09-2026,CASUAL,8,Bodega B,Pendiente,Converse,B04-02,5
+New Balance 574,70,Importadora Lima,ZAP-005,INBOUND,Rack-05,43,2026-09-06,Lifestyle,40,Almacén A,APROBADO,New Balance,A-05-01,10
+Vans Old Skool,55,Sport House,ZAP-006,outbound,R-02,38,06/09/26,Casual,15,Bodega C,pendiente,Vans,C-02-03,7
+Nike Revolution 7,90,Nike Peru,ZAP-007,Inbound,Rack 03,44,2026-09-05,Running,60,Almacén A,Aprobado,Nike,A-03-04,12
+Adidas Superstar,35,Adidas Peru,ZAP-008,OUTBOUND,Rack-01,40,05/09/2026,Casual,10,Bodega B,Rechazado,Adidas,B-01-02,6
+Reebok Club C 85,48,Importadora Lima,ZAP-009,Inbound,Rack-05,42,2026-09-04,Casual,30,Almacen A,Pendiente,Reebok,A05-03,6
+Asics Gel Contend,25,Sport House,ZAP-010,Outbound,rack 02,41,04/09/2026,Running,5,Bodega C,Aprobado,ASICS,C02-01,5
+Fila Disruptor II,32,Proveedor Andino,ZAP-011,inbound,Rack-06,39,2026-09-03,Lifestyle,25,Almacén A,APROBADO,Fila,A-06-02,5
+Under Armour Charged,18,Importadora Lima,ZAP-012,Outbound,Rack-04,43,03/09/2026,Running,7,Bodega B,PENDIENTE,Under Armour,B04-03,4
+Nike Court Vision,52,Nike Peru,ZAP-013,Inbound,Rack-03,40,02/09/2026,casual,20,Almacen A,Aprobado,NIKE,A03-01,7
+Puma Future Rider,20,Sport House,ZAP-014,OUTBOUND,Rack 02,42,01/09/2026,Lifestyle,4,Bodega C,Pendiente,Puma,C-02-02,5
+New Balance Fresh Foam,15,Importadora Lima,ZAP-015,Inbound,Rack-05,44,31/08/2026,RUNNING,35,Almacén A,pendiente,new balance,A-05-04,4
+Vans Authentic,40,Sport House,ZAP-016,Outbound,Rack-04,37,30/08/2026,Casual,9,Bodega B,Aprobado,VANS,B04-01,6
+Adidas Ultraboost,22,Adidas Peru,ZAP-017,INBOUND,Rack-01,42,29/08/2026,Running,18,Almacen A,Pendiente,adidas,A01-04,5
+Converse Run Star,27,Proveedor Andino,ZAP-018,outbound,Rack-06,38,28/08/2026,Lifestyle,6,Bodega C,Rechazado,CONVERSE,C06-02,5
+Nike Pegasus,8,Nike Peru,ZAP-019,Inbound,Rack-03,41,27/08/2026,Running,25,Almacén A,Aprobado,Nike,A03-03,10
+Puma Suede Classic,95,Sport House,ZAP-020,Outbound,Rack-02,40,26/08/2026,casual,20,Bodega B,Pendiente,PUMA,B02-04,12

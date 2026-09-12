@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StockFlow | Catálogo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="portal.css" />
+  </head>
+  <body>
+    <!-- Página exclusiva de clientes: filtros y tarjetas se generan en catalog.js. -->
+    <main class="catalog-page">
+      <header class="catalog-page-header">
+        <div>
+          <a class="back-link" href="portal.html">← Volver al portal</a>
+          <p class="eyebrow">TIENDA STOCKFLOW</p>
+          <h1>Catálogo de zapatillas</h1>
+          <p>Productos disponibles ahora mismo en el almacén.</p>
+        </div>
+        <a class="primary" href="portal.html">Mis compras</a>
+      </header>
+      <!-- Controles locales de búsqueda, marca, talla, color y rango de precio. -->
+      <section class="catalog-toolbar">
+        <input
+          id="catalog-search"
+          placeholder="Buscar por modelo o SKU"
+        /><select id="catalog-category">
+          <option value="">Todas las categorías</option></select
+        ><select id="catalog-brand">
+          <option value="">Todas las marcas</option></select
+        ><select id="catalog-size">
+          <option value="">Todas las tallas</option></select
+        ><select id="catalog-color">
+          <option value="">Todos los colores</option></select
+        ><select id="catalog-price">
+          <option value="">Todo precio</option>
+          <option value="0-299">Hasta S/ 299</option>
+          <option value="300-399">S/ 300 – 399</option>
+          <option value="400-999999">S/ 400 a más</option></select
+        ><span id="catalog-count"></span>
+      </section>
+      <p class="catalog-hint">
+        El stock mostrado indica la ubicación física actual. Al solicitar,
+        puedes indicar un rack preferido para preparar tu retiro; es opcional.
+      </p>
+      <!-- Contenedor que JavaScript llena con productos disponibles y formulario de solicitud. -->
+      <section
+        id="catalog-grid"
+        class="catalog-grid catalog-page-grid"
+      ></section>
+    </main>
+    <!-- Configuración, SDK de Supabase y lógica del catálogo (en ese orden). -->
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="catalog.js"></script>
+  </body>
+</html>

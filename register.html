@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StockFlow | Crear cuenta</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="portal.css" />
+  </head>
+  <body>
+    <!-- Formulario público: todos los usuarios nuevos se registran inicialmente como clientes. -->
+    <main class="shell">
+      <section class="auth-card register-card">
+        <a class="back-link" href="portal.html">← Volver al inicio de sesión</a>
+        <div class="logo">✦ StockFlow</div>
+        <p class="eyebrow">REGISTRO DE CLIENTE</p>
+        <h1>Crea tu cuenta.</h1>
+        <p class="muted">
+          Podrás ubicar productos por SKU y hacer seguimiento a tus solicitudes.
+        </p>
+        <!-- Datos de identidad y acceso que register.js valida antes de enviarlos a Supabase Auth. -->
+        <form id="register-form" class="register-form">
+          <div class="two-fields">
+            <label
+              >Nombres<input
+                name="first_name"
+                required
+                autocomplete="given-name"
+            /></label>
+            <label
+              >Apellidos<input
+                name="last_name"
+                required
+                autocomplete="family-name"
+            /></label>
+          </div>
+          <div class="two-fields">
+            <label
+              >DNI<input
+                name="dni"
+                required
+                inputmode="numeric"
+                pattern="[0-9]{8}"
+                minlength="8"
+                maxlength="8"
+                placeholder="8 dígitos"
+            /></label>
+            <label
+              >Teléfono celular<input
+                name="phone"
+                required
+                inputmode="numeric"
+                pattern="[0-9]{9}"
+                minlength="9"
+                maxlength="9"
+                title="Ingresa exactamente 9 dígitos"
+                placeholder="Ej. 999999999"
+            /></label>
+          </div>
+          <label
+            >Correo electrónico<input
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+          /></label>
+          <div class="two-fields">
+            <label
+              >Contraseña<input
+                name="password"
+                type="password"
+                required
+                minlength="6"
+                autocomplete="new-password"
+            /></label>
+            <label
+              >Confirmar contraseña<input
+                name="confirm_password"
+                type="password"
+                required
+                minlength="6"
+                autocomplete="new-password"
+            /></label>
+          </div>
+          <button class="primary">Crear cuenta</button>
+        </form>
+        <!-- Se muestra solo después de que Supabase confirma la creación de la cuenta. -->
+        <section id="register-success" class="success-box" hidden>
+          <strong>✓ Cuenta creada con éxito</strong>
+          <p>Ya puedes ingresar con tu correo y contraseña.</p>
+          <a class="primary" href="portal.html">Ir a iniciar sesión</a>
+        </section>
+        <p id="register-message" class="message" aria-live="polite"></p>
+      </section>
+    </main>
+    <!-- Dependencias del registro: configuración → SDK → validaciones del formulario. -->
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="register.js"></script>
+  </body>
+</html>

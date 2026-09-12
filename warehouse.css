@@ -1,0 +1,121 @@
+/* Mapa físico del almacén: estados de posición con código de color neón. */
+/* Agrupación visual: almacén → rack → posiciones físicas clicables. */
+.warehouse-map {
+  display: grid;
+  gap: 24px;
+}
+.warehouse-group {
+  padding: 19px;
+  margin-top: 4px;
+  border: 1px solid #b9ccff26;
+  border-radius: 13px;
+  background: #0b1830c9;
+}
+.warehouse-group h3 {
+  font: 800 15px Manrope;
+  margin: 0 0 4px;
+  color: #eaf3ff;
+}
+.warehouse-address {
+  margin: 0 0 14px;
+  color: #91aacb;
+  font-size: 11px;
+}
+.rack-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+}
+.rack-card {
+  border: 1px solid #b9ccff2d;
+  border-radius: 11px;
+  min-width: 170px;
+  padding: 14px;
+  background: linear-gradient(145deg, #193055f2, #0c1830f2);
+  box-shadow: inset 0 1px #ffffff16;
+}
+.rack-card h4 {
+  margin: 0 0 11px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #a99cff;
+}
+.position-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.position {
+  border: 1px solid #43f3ba2c;
+  border-radius: 7px;
+  padding: 7px 8px;
+  font: 700 10px "DM Sans";
+  background: #43f3ba12;
+  color: #5bf3c3;
+  cursor: pointer;
+  transition: 0.18s;
+}
+/* Diálogo que explica qué producto, pedido o reserva usa una posición. */
+.position-detail-dialog {
+  width: min(460px, calc(100% - 28px));
+  border: 1px solid #3ce7ff66;
+  border-radius: 15px;
+  background: #091a31;
+  color: #eaf5ff;
+  box-shadow: 0 24px 70px #000b;
+}
+.position-detail-dialog::backdrop {
+  background: #010817b8;
+}
+.position-detail-content {
+  padding: 4px 24px 14px;
+  color: #c5d8ef;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.position-detail-content h2 {
+  color: #fff;
+}
+.position:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px #43f3ba25;
+}
+.position.occupied {
+  background: #3ce7ff13;
+  border-color: #3ce7ff32;
+  color: #62eafa;
+}
+.position.reserved {
+  background: #ffb44b16;
+  border-color: #ffb44b35;
+  color: #ffcf7e;
+}
+.position small {
+  display: block;
+  font-weight: 500;
+  margin-top: 2px;
+}
+.legend {
+  display: flex;
+  gap: 17px;
+  font-size: 11px;
+  color: #c0cde5;
+  margin-bottom: 18px;
+}
+.legend i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  margin-right: 4px;
+  background: #43f3ba;
+  box-shadow: 0 0 8px #43f3ba;
+}
+.legend i.occ {
+  background: #3ce7ff;
+  box-shadow: 0 0 8px #3ce7ff;
+}
+.legend i.res {
+  background: #ffb44b;
+  box-shadow: 0 0 8px #ffb44b;
+}

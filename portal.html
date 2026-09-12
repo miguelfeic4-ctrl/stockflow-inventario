@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>StockFlow | Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="portal.css" />
+  </head>
+  <body>
+    <!-- Pantalla pública: solo inicio de sesión. El registro está en register.html. -->
+    <main class="shell">
+      <section id="auth-card" class="auth-card">
+        <div class="logo">✦ StockFlow</div>
+        <p class="eyebrow">PORTAL DE OPERACIONES</p>
+        <h1>Todo pedido tiene trazabilidad.</h1>
+        <p class="muted">
+          Ingresa para crear tickets, consultar su atención y coordinar
+          operaciones.
+        </p>
+        <form id="auth-form">
+          <label
+            >Correo electrónico<input
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+          /></label>
+          <label
+            >Contraseña<input
+              name="password"
+              type="password"
+              minlength="6"
+              required
+              autocomplete="current-password"
+          /></label>
+          <button class="primary">Ingresar</button>
+        </form>
+        <p class="auth-switch">
+          ¿Aún no tienes una cuenta?
+          <a href="register.html">Crear cuenta nueva</a>
+        </p>
+        <p id="auth-message" class="message"></p>
+      </section>
+      <!-- Área privada: se muestra solo cuando Supabase confirma la sesión. -->
+      <section id="portal" hidden>
+        <aside>
+          <div class="logo">✦ StockFlow</div>
+          <div class="user">
+            <span id="avatar">U</span>
+            <div>
+              <strong id="user-name">Usuario</strong
+              ><small id="user-role">cliente</small>
+            </div>
+          </div>
+          <!-- El menú se completa según el rol al iniciar sesión. -->
+          <nav
+            id="portal-menu"
+            class="portal-menu"
+            aria-label="Navegación del portal"
+          ></nav>
+          <button id="logout" class="ghost">Cerrar sesión</button>
+        </aside>
+        <article>
+          <header>
+            <div>
+              <p class="eyebrow">CENTRO DE SOPORTE</p>
+              <h1 id="portal-title">Mis tickets</h1>
+            </div>
+            <div class="portal-actions">
+              <a id="open-catalog" class="primary" href="catalog.html"
+                >◈ Ver catálogo</a
+              >
+              <button id="new-ticket" class="primary">＋ Nuevo ticket</button>
+            </div>
+          </header>
+          <section class="summary client-view" data-client-view="overview">
+            <div><span id="open-count">0</span><small>Abiertos</small></div>
+            <div>
+              <span id="progress-count">0</span><small>En proceso</small>
+            </div>
+            <div>
+              <span id="resolved-count">0</span><small>Resueltos</small>
+            </div>
+          </section>
+          <section
+            id="tickets-panel"
+            class="panel client-view"
+            data-client-view="tickets"
+          >
+            <div class="panel-top">
+              <h2>Seguimiento de solicitudes</h2>
+              <select id="status-filter">
+                <option value="">Todos los estados</option>
+                <option value="abierto">Abierto</option>
+                <option value="en_proceso">En proceso</option>
+                <option value="resuelto">Resuelto</option>
+                <option value="cerrado">Cerrado</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>CÓDIGO</th>
+                    <th>ASUNTO</th>
+                    <th>CATEGORÍA</th>
+                    <th>PRIORIDAD</th>
+                    <th>ESTADO</th>
+                    <th>CREADO</th>
+                    <th id="owner-head">SOLICITANTE</th>
+                  </tr>
+                </thead>
+                <tbody id="ticket-list"></tbody>
+              </table>
+            </div>
+          </section>
+        </article>
+      </section>
+    </main>
+    <!-- Formulario modal para crear un ticket de soporte. -->
+    <dialog id="ticket-dialog">
+      <form id="ticket-form">
+        <div class="dialog-head">
+          <div>
+            <p class="eyebrow">NUEVA SOLICITUD</p>
+            <h2>Crear ticket</h2>
+          </div>
+          <button type="button" class="close">×</button>
+        </div>
+        <label
+          >Asunto<input
+            name="title"
+            minlength="5"
+            required
+            placeholder="Ej. Consulta sobre despacho" /></label
+        ><label
+          >Categoría<select name="category">
+            <option>Consulta</option>
+            <option>Pedido</option>
+            <option>Incidencia</option>
+            <option>Devolución</option>
+            <option>Inventario</option>
+          </select></label
+        ><label
+          >Prioridad<select name="priority">
+            <option value="baja">Baja</option>
+            <option value="media" selected>Media</option>
+            <option value="alta">Alta</option>
+            <option value="urgente">Urgente</option>
+          </select></label
+        ><label
+          >Detalle<textarea
+            name="description"
+            minlength="10"
+            required
+            placeholder="Describe lo que necesitas y los datos relevantes."
+          ></textarea></label
+        ><button class="primary">Crear ticket</button>
+      </form>
+    </dialog>
+    <!-- Configuración privada y lógica del portal. -->
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="portal.js"></script>
+    <script src="store.js"></script>
+  </body>
+</html>

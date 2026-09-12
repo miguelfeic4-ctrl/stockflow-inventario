@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StockFlow | Inventario</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="warehouse.css" />
+  </head>
+  <body>
+    <!-- Navegación principal del centro operativo. -->
+    <aside>
+      <div class="brand"><span>✦</span> StockFlow</div>
+      <div class="sidebar-status"><i></i><span>Centro operativo</span></div>
+      <nav>
+        <p class="nav-label">OPERACIÓN</p>
+        <button class="nav active" data-view="dashboard">
+          <b>▦</b><span>Resumen</span></button
+        ><button class="nav" data-view="inventory">
+          <b>▣</b><span>Inventario</span></button
+        ><button class="nav" data-view="movements">
+          <b>⇄</b><span>Movimientos</span></button
+        ><button class="nav" data-view="warehouse">
+          <b>⌘</b><span>Almacén</span>
+        </button>
+      </nav>
+      <div class="side-bottom">
+        <span id="dashboard-avatar" class="avatar">SF</span>
+        <div>
+          <strong id="dashboard-user-name">Equipo StockFlow</strong
+          ><small id="dashboard-role">Centro de operaciones</small>
+        </div>
+      </div>
+    </aside>
+    <!-- Vistas dinámicas: resumen, inventario, movimientos y almacén. -->
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">CENTRO DE CONTROL</p>
+          <h1 id="page-title">Resumen de inventario</h1>
+          <p id="dashboard-date" class="header-date"></p>
+        </div>
+        <div class="header-actions">
+          <span id="connection" class="connection">● Sin configurar</span
+          ><button id="primary-action" class="primary">
+            ＋ Nuevo artículo
+          </button>
+        </div>
+      </header>
+      <!-- Resumen operativo: métricas, accesos rápidos y movimientos recientes. -->
+      <section id="dashboard" class="view active">
+        <section class="operations-hero">
+          <div>
+            <p class="eyebrow">OPERACIÓN EN TIEMPO REAL</p>
+            <h2>Todo el almacén, bajo control.</h2>
+            <p>
+              Supervisa existencias, prepara movimientos y consulta el estado de
+              cada posición desde una sola vista.
+            </p>
+          </div>
+          <div class="hero-actions">
+            <button class="hero-action" data-go="inventory">
+              <span>▣</span> Revisar inventario
+            </button>
+            <button class="hero-action" data-go="movements">
+              <span>⇄</span> Gestionar órdenes
+            </button>
+          </div>
+          <span class="hero-mark">✦</span>
+        </section>
+        <div class="metrics">
+          <article>
+            <span class="metric-icon blue">▣</span>
+            <p>Total de artículos</p>
+            <strong id="total-items">—</strong
+            ><small>Referencias activas</small>
+          </article>
+          <article>
+            <span class="metric-icon violet">≡</span>
+            <p>Stock total</p>
+            <strong id="total-stock">—</strong
+            ><small>Unidades disponibles</small>
+          </article>
+          <article>
+            <span class="metric-icon orange">!</span>
+            <p>Stock bajo</p>
+            <strong id="low-stock">—</strong><small>Requieren reposición</small>
+          </article>
+          <article>
+            <span class="metric-icon green">$</span>
+            <p>Valor de inventario</p>
+            <strong id="inventory-value">—</strong><small>Al costo</small>
+          </article>
+        </div>
+        <section class="quick-actions" aria-label="Acciones rápidas">
+          <button id="quick-new-item"><span>＋</span>Nuevo artículo</button>
+          <button id="quick-new-movement"><span>⇄</span>Nueva orden</button>
+          <button data-go="warehouse"><span>⌘</span>Ver mapa físico</button>
+        </section>
+        <section class="panel recent">
+          <div class="panel-title">
+            <div>
+              <h2>Movimientos recientes</h2>
+              <p>Últimas operaciones registradas</p>
+            </div>
+            <button class="link-button" data-go="movements">Ver todos →</button>
+          </div>
+          <div id="recent-movements" class="movement-list">
+            <p class="empty">Configura Supabase para comenzar.</p>
+          </div>
+        </section>
+      </section>
+      <!-- Inventario: filtros, tabla de productos y acciones de edición. -->
+      <section id="inventory" class="view">
+        <div class="toolbar">
+          <input id="search" placeholder="Buscar por artículo o SKU…" /><select
+            id="category-filter"
+          >
+            <option value="">Todas las categorías</option></select
+          ><select id="supplier-filter">
+            <option value="">Todos los proveedores</option></select
+          ><select id="stock-filter">
+            <option value="">Todo el stock</option>
+            <option value="low">Stock bajo</option>
+            <option value="ok">Stock óptimo</option>
+          </select>
+        </div>
+        <section class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>Catálogo de inventario</h2>
+              <p id="item-count">0 artículos</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>ARTÍCULO</th>
+                  <th>CATEGORÍA</th>
+                  <th>STOCK</th>
+                  <th>COSTO</th>
+                  <th>PRECIO</th>
+                  <th>PROVEEDOR</th>
+                  <th>ESTADO</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="inventory-table"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+      <!-- Movimientos: órdenes INBOUND, OUTBOUND y ajustes pendientes/aprobados. -->
+      <section id="movements" class="view">
+        <section class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>Órdenes y movimientos</h2>
+              <p>Una orden pendiente no cambia stock hasta ejecutarse.</p>
+            </div>
+            <button id="new-movement" class="primary">＋ Nueva orden</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>FECHA</th>
+                  <th>SKU / ARTÍCULO</th>
+                  <th>TIPO</th>
+                  <th>CANTIDAD</th>
+                  <th>MOTIVO</th>
+                  <th>ESTADO</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="movement-table"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+      <!-- Almacén: mapa de racks y posiciones físicas del inventario. -->
+      <section id="warehouse" class="view">
+        <div class="metrics warehouse-metrics">
+          <article>
+            <p>Posiciones</p>
+            <strong id="position-total">—</strong
+            ><small>Espacios registrados</small>
+          </article>
+          <article>
+            <p>Ocupadas</p>
+            <strong id="position-occupied">—</strong
+            ><small>Con producto almacenado</small>
+          </article>
+          <article>
+            <p>Reservadas</p>
+            <strong id="position-reserved">—</strong
+            ><small>Entradas pendientes</small>
+          </article>
+        </div>
+        <section class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>Mapa del almacén</h2>
+              <p>
+                Una posición sólo puede contener un producto; amarillo significa
+                reserva INBOUND.
+              </p>
+            </div>
+          </div>
+          <div id="warehouse-map" class="warehouse-map"></div>
+        </section>
+      </section>
+    </main>
+    <!-- Formularios modales para administrar artículos y órdenes. -->
+    <dialog id="item-modal">
+      <form id="item-form" method="dialog">
+        <div class="modal-head">
+          <div>
+            <p class="eyebrow">ARTÍCULO</p>
+            <h2 id="item-modal-title">Nuevo artículo</h2>
+          </div>
+          <button type="button" class="close">×</button>
+        </div>
+        <input type="hidden" name="id" />
+        <div class="form-grid">
+          <label>SKU*<input name="sku" required /></label
+          ><label>Nombre*<input name="name" required /></label
+          ><label
+            >Categoría*<input
+              name="category"
+              required
+              placeholder="Ej. Electrónica" /></label
+          ><label>Proveedor<input name="supplier" /></label
+          ><label>Marca<input name="brand" placeholder="Ej. Nike" /></label
+          ><label>Color<input name="color" placeholder="Ej. Negro" /></label
+          ><label
+            >Talla EU<input
+              name="size_eu"
+              type="number"
+              min="30"
+              max="55"
+              placeholder="Ej. 42" /></label
+          ><label class="full"
+            >Descripción<textarea name="description" rows="2"></textarea></label
+          ><label
+            >Peso (kg)<input
+              name="weight"
+              type="number"
+              min="0"
+              step="0.01" /></label
+          ><label
+            >Costo*<input
+              name="cost"
+              type="number"
+              min="0"
+              step="0.01"
+              required
+              value="0" /></label
+          ><label
+            >Largo (cm)<input
+              name="length"
+              type="number"
+              min="0"
+              step="0.01" /></label
+          ><label
+            >Ancho (cm)<input
+              name="width"
+              type="number"
+              min="0"
+              step="0.01" /></label
+          ><label
+            >Alto (cm)<input
+              name="height"
+              type="number"
+              min="0"
+              step="0.01" /></label
+          ><label
+            >Precio*<input
+              name="price"
+              type="number"
+              min="0"
+              step="0.01"
+              required
+              value="0" /></label
+          ><label
+            >Stock inicial*<input
+              name="quantity"
+              type="number"
+              min="0"
+              required
+              value="0" /></label
+          ><label
+            >Stock mínimo*<input
+              name="min_stock"
+              type="number"
+              min="0"
+              required
+              value="0" /></label
+          ><label
+            >Ubicación<input name="location" value="Almacén principal" /></label
+          ><label class="full"
+            >Posición física<select name="position_id" id="item-position">
+              <option value="">Sin asignar</option>
+            </select></label
+          >
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="secondary close">Cancelar</button
+          ><button class="primary">Guardar artículo</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="movement-modal">
+      <form id="movement-form" method="dialog">
+        <div class="modal-head">
+          <div>
+            <p class="eyebrow">ORDEN DE ALMACÉN</p>
+            <h2>Nuevo movimiento</h2>
+          </div>
+          <button type="button" class="close">×</button>
+        </div>
+        <div class="form-grid">
+          <label class="full"
+            >Artículo*<select
+              name="inventory_id"
+              id="movement-item"
+              required
+            ></select></label
+          ><label
+            >Tipo*<select name="movement_type" id="movement-type">
+              <option value="entrada">INBOUND · Entrada</option>
+              <option value="salida">OUTBOUND · Salida</option>
+              <option value="ajuste">Ajuste</option>
+            </select></label
+          ><label
+            >Cantidad*<input
+              name="quantity"
+              type="number"
+              min="1"
+              required /></label
+          ><label class="full" id="destination-field"
+            >Posición de destino (se reserva al crear INBOUND)*<select
+              name="destination_position_id"
+              id="destination-position"
+            ></select></label
+          ><label id="inbound-supplier-field"
+            >Proveedor INBOUND<input
+              name="supplier_name"
+              placeholder="Ej. Importadora Lima" /></label
+          ><label id="inbound-date-field"
+            >Llegada estimada<input
+              name="expected_at"
+              type="datetime-local" /></label
+          ><label class="full"
+            >Motivo*<input
+              name="reason"
+              required
+              placeholder="Ej. Compra de mercadería" /></label
+          ><label class="full"
+            >Notas<textarea name="notes" rows="3"></textarea>
+          </label>
+        </div>
+        <p class="hint">
+          La orden se crea pendiente. El stock y la posición se actualizan
+          solamente al aprobarla.
+        </p>
+        <div class="modal-actions">
+          <button type="button" class="secondary close">Cancelar</button
+          ><button class="primary">Crear orden</button>
+        </div>
+      </form>
+    </dialog>
+    <div id="toast"></div>
+    <!-- Configuración, cliente Supabase y módulos de la interfaz. -->
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+    <script src="admin-tickets.js"></script>
+    <script src="admin-audit.js"></script>
+    <script src="dashboard-session.js"></script>
+  </body>
+</html>
