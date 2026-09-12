@@ -194,6 +194,13 @@ inventario-supabase/
 
 > Nunca coloques la clave `service_role` en `config.js` ni en el navegador.
 
+## Proyecto Supabase
+
+- URL de la API usada por el frontend: `https://smxqczzyvlrpbxukjlkt.supabase.co`
+- Panel del proyecto: [Supabase Dashboard](https://supabase.com/dashboard/project/smxqczzyvlrpbxukjlkt)
+
+Para que el evaluador pueda revisar tablas, RLS y funciones RPC, se le debe invitar como colaborador del proyecto desde Supabase. El repositorio incluye todas las migraciones SQL para que también pueda revisar o recrear la estructura.
+
 ## Orden sugerido de migraciones
 
 Ejecutar primero la base y luego las funcionalidades complementarias que se usarán:
@@ -248,4 +255,3 @@ Para la entrega final se debe proporcionar:
 - Link o acceso al proyecto de Supabase.
 - Repositorio GitHub con el código fuente.
 - Este `README.md`.
-

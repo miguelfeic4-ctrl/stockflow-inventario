@@ -1,1 +1,4 @@
-config.js
+# No incluir claves privadas de backend (service_role, sb_secret, archivos .env).
+# config.js usa únicamente la URL y la publishable key necesarias para esta demo estática.
+.env
+.env.*
