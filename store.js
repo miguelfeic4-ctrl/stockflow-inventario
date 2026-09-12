@@ -24,6 +24,10 @@ window.initStore = async function initStore() {
     section.dataset.adminView = "purchases";
     section.hidden = window.activeAdminView !== "purchases";
   }
+  if (profile?.role === "operador") {
+    section.dataset.operatorView = "purchases";
+    section.hidden = window.activeOperatorView !== "purchases";
+  }
   document
     .querySelector("article")
     .insertBefore(section, document.querySelector(".summary"));

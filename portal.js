@@ -10,7 +10,8 @@ let me = null,
   profile = null,
   tickets = [],
   activeClientView = "overview",
-  activeAdminView = "dashboard";
+  activeAdminView = "dashboard",
+  activeOperatorView = "dashboard";
 const $ = (s) => document.querySelector(s),
   esc = (v) =>
     String(v ?? "").replace(
@@ -69,7 +70,7 @@ async function showPortal() {
   // La tienda y el dashboard con vistas separadas son exclusivos de clientes.
   $("#open-catalog").hidden = true;
   if (profile.role === "administrador") setupAdminDashboard();
-  else if (staff()) adminNav();
+  else if (profile.role === "operador") setupOperatorDashboard();
   else setupClientDashboard();
   addPickupFinder();
   addNotifications();
@@ -123,6 +124,81 @@ function setClientView(view) {
     );
 }
 window.setClientView = setClientView;
+
+// El operador trabaja desde un único panel: recibe una bienvenida y navega las
+// herramientas autorizadas sin salir hacia la página pública de inicio.
+function setupOperatorDashboard() {
+  const menu = $("#portal-menu");
+  if (!menu.querySelector("[data-operator-view]")) {
+    menu.innerHTML = `<p class="menu-label">OPERACIÓN</p><button class="menu-item" data-operator-view="dashboard"><span>◈</span>Mi jornada</button><button class="menu-item" data-operator-view="inventory"><span>▣</span>Inventario</button><button class="menu-item" data-operator-view="movements"><span>⇄</span>Movimientos</button><button class="menu-item" data-operator-view="warehouse"><span>⌘</span>Almacén</button><p class="menu-label menu-label-second">ATENCIÓN</p><button class="menu-item" data-operator-view="purchases"><span>◌</span>Solicitudes de compra</button><button class="menu-item" data-operator-view="tickets"><span>✉</span>Tickets</button><button class="menu-item" data-operator-view="locator"><span>⌖</span>Ubicar producto</button>`;
+    menu.querySelectorAll("button[data-operator-view]").forEach((button) => {
+      button.onclick = () => setOperatorView(button.dataset.operatorView);
+    });
+  }
+  if (!$("#operator-operation-host")) {
+    const host = document.createElement("section");
+    host.id = "operator-operation-host";
+    host.className = "admin-operation-host";
+    host.innerHTML =
+      '<iframe id="operator-operation-frame" title="Centro operativo StockFlow"></iframe>';
+    $("article").append(host);
+  }
+  if (!$("#operator-welcome")) {
+    const welcome = document.createElement("section");
+    welcome.id = "operator-welcome";
+    welcome.className = "operator-welcome";
+    welcome.dataset.operatorView = "dashboard";
+    welcome.innerHTML = `<div class="operator-welcome-copy"><p class="eyebrow">CENTRO OPERATIVO</p><h2>Hola, ${esc(profile.full_name.split(" ")[0])}</h2><p>Gestiona el inventario, prepara despachos y atiende solicitudes desde un solo lugar.</p><div class="operator-shortcuts"><button data-operator-go="movements"><span>⇄</span><strong>Gestionar movimientos</strong><small>Entradas y salidas</small></button><button data-operator-go="purchases"><span>◌</span><strong>Preparar pedidos</strong><small>Compras por atender</small></button><button data-operator-go="warehouse"><span>⌘</span><strong>Ver almacén</strong><small>Racks y posiciones</small></button></div></div><div class="operator-welcome-mark">✦</div>`;
+    $("article header").after(welcome);
+    welcome.querySelectorAll("[data-operator-go]").forEach((button) => {
+      button.onclick = () => setOperatorView(button.dataset.operatorGo);
+    });
+  }
+  $(".summary").dataset.operatorView = "tickets";
+  $("#tickets-panel").dataset.operatorView = "tickets";
+  setOperatorView(activeOperatorView);
+}
+
+// Alterna módulos del operador y carga el centro operativo dentro del portal.
+function setOperatorView(view) {
+  activeOperatorView = view;
+  window.activeOperatorView = view;
+  const embeddedViews = ["inventory", "movements", "warehouse"];
+  const labels = {
+    dashboard: ["CENTRO OPERATIVO", "Mi jornada"],
+    inventory: ["GESTIÓN DE EXISTENCIAS", "Inventario"],
+    movements: ["INBOUND Y OUTBOUND", "Movimientos"],
+    warehouse: ["MAPA FÍSICO", "Almacén"],
+    purchases: ["VENTAS Y DESPACHO", "Solicitudes de compra"],
+    tickets: ["CENTRO DE SOPORTE", "Tickets"],
+    locator: ["RETIRO PRESENCIAL", "Ubicar producto"],
+  };
+  document.querySelectorAll("[data-operator-view]").forEach((section) => {
+    if (!section.matches("button"))
+      section.hidden = section.dataset.operatorView !== view;
+  });
+  const host = $("#operator-operation-host");
+  if (host) {
+    host.hidden = !embeddedViews.includes(view);
+    if (embeddedViews.includes(view)) {
+      const frame = $("#operator-operation-frame");
+      const nextUrl = `index.html?embedded=1&view=${view}`;
+      if (frame.dataset.view !== view) {
+        frame.src = nextUrl;
+        frame.dataset.view = view;
+      }
+    }
+  }
+  $("#portal-title").textContent = labels[view]?.[1] || "Mi jornada";
+  $("article header .eyebrow").textContent =
+    labels[view]?.[0] || "CENTRO OPERATIVO";
+  $("#portal-menu")
+    .querySelectorAll("button[data-operator-view]")
+    .forEach((button) =>
+      button.classList.toggle("active", button.dataset.operatorView === view),
+    );
+}
+window.setOperatorView = setOperatorView;
 
 // El administrador reúne tickets, compras e inventario dentro de un solo portal.
 // El centro operativo se carga incrustado para conservar todas sus funciones actuales.
@@ -292,15 +368,6 @@ async function openNotifications() {
   dialog.showModal();
   await loadNotifications();
 }
-// Añade el acceso al centro operativo para operador y administrador.
-function adminNav() {
-  const header = $("article header"),
-    button = document.createElement("a");
-  button.href = "index.html";
-  button.className = "primary";
-  button.textContent = "▦ Centro de inventario";
-  header.append(button);
-}
 // Inserta el buscador de ubicación de producto por código SKU.
 function addPickupFinder() {
   if ($("#pickup-finder")) return;
@@ -314,6 +381,10 @@ function addPickupFinder() {
   if (profile?.role === "administrador") {
     section.dataset.adminView = "locator";
     section.hidden = activeAdminView !== "locator";
+  }
+  if (profile?.role === "operador") {
+    section.dataset.operatorView = "locator";
+    section.hidden = activeOperatorView !== "locator";
   }
   section.innerHTML =
     '<p class="eyebrow">RETIRO PRESENCIAL</p><h2>Ubicar un producto</h2><p>Ingresa el código SKU del producto para conocer su ubicación exacta.</p><form class="pickup-form" id="pickup-form"><input name="product_code" required placeholder="Ej. ZAP-001" autocomplete="off"><button class="primary">Ubicar producto</button></form><div id="pickup-result" aria-live="polite"></div>';
