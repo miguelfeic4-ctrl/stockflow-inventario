@@ -247,11 +247,7 @@ Si una migración fue actualizada, se debe ejecutar nuevamente solo cuando su co
 - Gestión de proveedores e INBOUND.
 - Flujo completo de compra, despacho y retiro con PIN.
 
-## Entrega
-
-Para la entrega final se debe proporcionar:
-
-- Link del proyecto publicado.
-- Link o acceso al proyecto de Supabase.
-- Repositorio GitHub con el código fuente.
-- Este `README.md`.
+## Usuarios:
+- miguelfeic4@gmail.com    administrador
+- miguelfeic1@gmail.com    operador
+- miguelfeic3@gmail.com	   cliente
