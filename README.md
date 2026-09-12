@@ -251,3 +251,4 @@ Si una migración fue actualizada, se debe ejecutar nuevamente solo cuando su co
 - miguelfeic4@gmail.com    administrador
 - miguelfeic1@gmail.com    operador
 - miguelfeic3@gmail.com	   cliente
+- todos usan como contraseña 'perrogato'
